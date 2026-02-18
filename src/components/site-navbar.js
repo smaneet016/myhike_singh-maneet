@@ -7,11 +7,11 @@ class SiteNavbar extends HTMLElement {
     renderNavbar() {
         this.innerHTML = `
             <!-- Navbar: single source of truth -->
-            <nav class="navbar navbar-expand-lg navbar-dark bg-info">
-                <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-warning">
+            <div class="container-fluid">
                     <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-                        <img src="/images/image.jpg" height="36" alt="Logo">
-                        Maneet Singh
+                        <img src="/images/hiking.gif" height="36" alt="Logo">
+                       Maneet's hiking app
                     </a>
 
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
