@@ -22,6 +22,8 @@ function readQuote(day) {
     });
 }
 
+readQuote("Tuesday");
+
 function showName() {
       const nameElement = document.getElementById("name-goes-here"); // the <h1> element to display "Hello, {name}"
 
