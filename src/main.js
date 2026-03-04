@@ -91,6 +91,8 @@ function displayCardsDynamically() {
                 newcard.querySelector('.card-length').textContent = hike.length;
                 newcard.querySelector('.card-image').src = `/images/${hike.code}.jpg`;
                 newcard.querySelector('.card-image').alt = hike.name;
+                // Add the link with the document ID
+                newcard.querySelector(".read-more").href = `eachHike.html?docID=${doc.id}`;
 
                 // Append to container
                 document.getElementById("hikes-go-here").appendChild(newcard);
