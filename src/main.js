@@ -27,7 +27,7 @@ function addHikeData() {
     });
 
     addDoc(hikesRef, {
-        code: "AMO01",
+        code: "AM01",
         name: "Buntzen Lake Trail",
         city: "Anmore",
         level: "moderate",
