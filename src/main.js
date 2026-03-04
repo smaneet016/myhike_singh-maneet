@@ -14,7 +14,7 @@ function addHikeData() {
     console.log("Adding sample hike data...");
 
     addDoc(hikesRef, {
-        code: "BBY01",
+        code: "BBY01.jpg",
         name: "Burnaby Lake Park Trail",
         city: "Burnaby",
         level: "easy",
@@ -27,7 +27,7 @@ function addHikeData() {
     });
 
     addDoc(hikesRef, {
-        code: "AM01",
+        code: "AM01.jpg",
         name: "Buntzen Lake Trail",
         city: "Anmore",
         level: "moderate",
@@ -40,7 +40,7 @@ function addHikeData() {
     });
 
     addDoc(hikesRef, {
-        code: "NV01",
+        code: "NV01.jpg",
         name: "Mount Seymour Trail",
         city: "North Vancouver",
         level: "hard",
