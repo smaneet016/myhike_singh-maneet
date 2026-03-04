@@ -72,6 +72,35 @@ async function seedHikes() {
 // Call the seeding function when the main.html page loads.
 seedHikes();
 
+function displayCardsDynamically() {
+    let cardTemplate = document.getElementById("hikeCardTemplate");
+    const hikesCollectionRef = collection(db, "hikes");
+
+    getDocs(hikesCollectionRef)
+        .then((querySnapshot) => {
+
+            querySnapshot.forEach((doc) => {
+
+                // Clone the template
+                let newcard = cardTemplate.content.cloneNode(true);   //cardTemplate.content gives inside of the template. cloneNode(true) make a deep copy
+                const hike = doc.data();
+
+                // Populate the card
+                newcard.querySelector('.card-title').textContent = hike.name;
+                newcard.querySelector('.card-text').textContent = hike.details || `Located in ${hike.city}.`;
+                newcard.querySelector('.card-length').textContent = hike.length;
+
+                // Append to container
+                document.getElementById("hikes-go-here").appendChild(newcard);
+            });
+
+        })
+        .catch((error) => {
+            console.error("Error getting documents: ", error);
+        });
+}
+
+displayCardsDynamically();
 // Function to read the quote of the day from Firestore
 function readQuote(day) {
     const quoteDocRef = doc(db, "quotes", day); // Get a reference to the document
