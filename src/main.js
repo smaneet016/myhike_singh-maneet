@@ -9,54 +9,69 @@ import {
     onAuthReady
 } from "./authentication.js"
 
-// Helper function to add the sample hike documents.
 function addHikeData() {
     const hikesRef = collection(db, "hikes");
     console.log("Adding sample hike data...");
+
     addDoc(hikesRef, {
-        code: "BBY01", name: "Burnaby Lake Park Trail", city: "Burnaby",
-        level: "easy", details: "A lovely place for a lunch walk.", length: 10,
-        hike_time: 60, lat: 49.2467097082573, lng: -122.9187029619698,
+        code: "BBY01",
+        name: "Burnaby Lake Park Trail",
+        city: "Burnaby",
+        level: "easy",
+        details: "A lovely place for a lunch walk.",
+        length: 10,
+        hike_time: 60,
+        lat: 49.2467097082573,
+        lng: -122.9187029619698,
         last_updated: serverTimestamp()
     });
+
     addDoc(hikesRef, {
-        code: "AM01", name: "Buntzen Lake Trail", city: "Anmore",
-        level: "moderate", details: "Close to town, and relaxing.", length: 10.5,
-        hike_time: 80, lat: 49.3399431028579, lng: -122.85908496766939,
+        code: "AM01",
+        name: "Buntzen Lake Trail",
+        city: "Anmore",
+        level: "moderate",
+        details: "Close to town, and relaxing.",
+        length: 10.5,
+        hike_time: 80,
+        lat: 49.3399431028579,
+        lng: -122.8590849676639,
         last_updated: serverTimestamp()
     });
+
     addDoc(hikesRef, {
-        code: "NV01", name: "Mount Seymour Trail", city: "North Vancouver",
-        level: "hard", details: "Amazing ski slope views.", length: 8.2,
-        hike_time: 120, lat: 49.38847101455571,lng: -122.94092543551031,
+        code: "NV01",
+        name: "Mount Seymour Trail",
+        city: "North Vancouver",
+        level: "hard",
+        details: "Amazing ski slope views.",
+        length: 8.2,
+        hike_time: 120,
+        lat: 49.38847101455571,
+        lng: -122.94092543551031,
         last_updated: serverTimestamp()
     });
 }
 // Seeds the "hikes" collection with initial data if it is empty
-function seedHikes() {
-    // Get a reference to the "hikes" collection
-    const hikesRef = collection(db, "hikes");
-    // Retrieve all documents currently in the collection
-    getDocs(hikesRef)
-        .then(function(querySnapshot) {
-            // If no documents exist, the collection is empty
-            if (querySnapshot.empty) {
-                console.log("Hikes collection is empty. Seeding data...");
+async function seedHikes() {
 
-                // Call function to insert default hike documents
-                addHikeData();
-            } else {
-                // If documents already exist, do not reseed
-                console.log("Hikes collection already contains data. Skipping seed.");
-            }
-        })
-        .catch(function(error) {
-            console.error("Error checking hikes collection:", error);
-        });
+    const hikesRef = collection(db, "hikes");
+    const querySnapshot = await getDocs(hikesRef);
+
+    if (querySnapshot.empty) {
+
+        console.log("Hikes collection is empty. Seeding data...");
+        addHikeData();
+
+    } else {
+
+        console.log("Hikes collection already contains data. Skipping seed.");
+    }
 }
 
 // Call the seeding function when the main.html page loads.
 seedHikes();
+
 // Function to read the quote of the day from Firestore
 function readQuote(day) {
     const quoteDocRef = doc(db, "quotes", day); // Get a reference to the document
