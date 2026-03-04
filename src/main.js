@@ -32,63 +32,31 @@ function addHikeData() {
         last_updated: serverTimestamp()
     });
 }
-
 // Seeds the "hikes" collection with initial data if it is empty
-async function seedHikes() {
-
+function seedHikes() {
     // Get a reference to the "hikes" collection
     const hikesRef = collection(db, "hikes");
-
     // Retrieve all documents currently in the collection
-    const querySnapshot = await getDocs(hikesRef);
+    getDocs(hikesRef)
+        .then(function(querySnapshot) {
+            // If no documents exist, the collection is empty
+            if (querySnapshot.empty) {
+                console.log("Hikes collection is empty. Seeding data...");
 
-    // If no documents exist, the collection is empty
-    if (querySnapshot.empty) {
-
-        console.log("Hikes collection is empty. Seeding data...");
-
-        // Call function to insert default hike documents
-        addHikeData();
-
-    } else {
-
-        // If documents already exist, do not reseed
-        console.log("Hikes collection already contains data. Skipping seed.");
-    }
+                // Call function to insert default hike documents
+                addHikeData();
+            } else {
+                // If documents already exist, do not reseed
+                console.log("Hikes collection already contains data. Skipping seed.");
+            }
+        })
+        .catch(function(error) {
+            console.error("Error checking hikes collection:", error);
+        });
 }
 
 // Call the seeding function when the main.html page loads.
 seedHikes();
-async function displayCardsDynamically() {
-    let cardTemplate = document.getElementById("hikeCardTemplate");
-    const hikesCollectionRef = collection(db, "hikes");
-
-    try {
-        const querySnapshot = await getDocs(hikesCollectionRef);
-        querySnapshot.forEach(doc => {
-            // Clone the template
-            let newcard = cardTemplate.content.cloneNode(true);
-            const hike = doc.data(); // Get hike data once
-
-            // Populate the card with hike data
-            newcard.querySelector('.card-title').textContent = hike.name;
-            newcard.querySelector('.card-text').textContent = hike.details || `Located in ${hike.city}.`;
-            newcard.querySelector('.card-length').textContent = hike.length;
-
-            // 👇 ADD THIS LINE TO SET THE IMAGE SOURCE
-            newcard.querySelector('.card-image').src = `./images/${hike.code}.jpg`;
-
-            // Attach the new card to the container
-            document.getElementById("hikes-go-here").appendChild(newcard);
-        });
-    } catch (error) {
-        console.error("Error getting documents: ", error);
-    }
-}
-
-// Call the function to display cards when the page loads
-displayCardsDynamically();
-
 // Function to read the quote of the day from Firestore
 function readQuote(day) {
     const quoteDocRef = doc(db, "quotes", day); // Get a reference to the document
