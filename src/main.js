@@ -9,12 +9,35 @@ import {
     onAuthReady
 } from "./authentication.js"
 
+// Function to read the quote of the day from Firestore
+function readQuote(day) {
+    const quoteDocRef = doc(db, "quotes", day); // Get a reference to the document
+  
+    onSnapshot(
+      quoteDocRef,
+      (docSnap) => {
+        // Listen for real-time updates
+        if (docSnap.exists()) {
+          //Document existence check
+          document.getElementById("quote-goes-here").innerHTML =
+            docSnap.data().quote;
+        } else {
+          console.log("No such document!");
+        }
+      },
+      (error) => {
+        //Listener/system error
+        console.error("Error listening to document: ", error);
+      },
+    );
+  }
+
 function addHikeData() {
     const hikesRef = collection(db, "hikes");
     console.log("Adding sample hike data...");
 
     addDoc(hikesRef, {
-        code: "/images/BBY01.jpg",
+        code: "BBY01",
         name: "Burnaby Lake Park Trail",
         city: "Burnaby",
         level: "easy",
@@ -27,7 +50,7 @@ function addHikeData() {
     });
 
     addDoc(hikesRef, {
-        code: "/images/AMO01.jpg",
+        code: "AM01",
         name: "Buntzen Lake Trail",
         city: "Anmore",
         level: "moderate",
@@ -40,7 +63,7 @@ function addHikeData() {
     });
 
     addDoc(hikesRef, {
-        code: "/images/NV01.jpg",
+        code: "NV01",
         name: "Mount Seymour Trail",
         city: "North Vancouver",
         level: "hard",
